@@ -39,3 +39,12 @@ ehthumbs.db
 
 # Font Studio backup files
 *.vfbak
+
+# Docker
+bin/
+config/
+logs/
+.env
+docker-compose.yml
+
+.vscode
