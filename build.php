@@ -8,14 +8,16 @@ function buildPokesprite($options = null, $logs = false)
 
     $options = (object) [
       'pokemon' => (object) [
-      'base' => true,
-      'female' => true,
-      'forms' => true,
-      'regular' => true,
-      'shiny' => true,
-      'other' => true
+        'base' => true,
+        'female' => true,
+        'forms' => true,
+        'regular' => true,
+        'shiny' => true,
+        'other' => true
       ],
-      'items' => (object) []
+      'items' => (object) [
+        'outline' => false
+      ]
     ];
 
     foreach($d->{'item-groups'} as $groupid => $group)
@@ -101,6 +103,8 @@ function buildPokesprite($options = null, $logs = false)
   $items = json_decode(file_get_contents('data/item-map.json', true));
   $iconesItems = [];
   $basePath = 'items/';
+  if ($options->items->outline === true)
+    $basePath = 'items-outline/';
   $itemSize = (object) [
     'width' => 32,
     'height' => 32
@@ -146,7 +150,7 @@ function buildPokesprite($options = null, $logs = false)
 
   $cssPath = 'out/pokesprite.css';
   $imagePath = 'out/pokesprite.png';
-  $previewPath = 'out/pokesprite.html';
+  $previewPath = 'out/index.html';
 
   // If files already exist, remove
   if (file_exists($cssPath)) unlink($cssPath);
@@ -154,10 +158,10 @@ function buildPokesprite($options = null, $logs = false)
   if (file_exists($previewPath)) unlink($previewPath);
 
   // Init CSS file
-  file_put_contents($cssPath, ".pkspr{background-image:url('pokesprite.png');background-repeat:no-repeat}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
+  file_put_contents($cssPath, ".pkspr{background-image:url('pokesprite.png');background-repeat:no-repeat;image-rendering:pixelated;display:inline-block;position:relative;vertical-align:baseline;}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
 
   // Init HTML file
-  file_put_contents($previewPath, '<style>html{width:100%;height:100%;}body{display:flex;flex-wrap:wrap;justify-content:space-between;margin:100px;}.container{border:1px solid black;display:flex;justify-content:center;align-items:center;margin:5px;display:grid;grid-template-columns:68px 200px;overflow:hidden}.container.pokemon{height:56px}.container.item{height:32px}.container>div:not(.pkspr){padding:5px}</style><link rel="stylesheet"href="pokesprite.css">');
+  file_put_contents($previewPath, '<head><style>html{width:100%;height:100%;}body{display:flex;flex-wrap:wrap;justify-content:space-between;margin:100px;background-color:#ccc}.container{border:1px solid black;display:flex;justify-content:center;align-items:center;margin:5px;display:grid;grid-template-columns:68px 220px;overflow:hidden}.container.pokemon{height:56px}.container.item{height:32px;grid-template-columns: 32px 256px}.container>div:not(.pkspr){padding:5px;font-size:.85em}</style><link rel="stylesheet"href="pokesprite.css"></head><body><main style="flex-basis:100%"><ul><li><a href="pokesprite.png">Link to image (pokesprite.png)</a></li><li><a href="pokesprite.css">Link to style sheet (pokesprite.css)</a></li></ul></main>');
 
   // Create a blank image the right size
   $background = imagecreatetruecolor($width, $height);
