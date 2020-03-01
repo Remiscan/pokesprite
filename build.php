@@ -146,22 +146,27 @@ function buildPokesprite($options = null, $logs = false)
 
   $cssPath = 'out/pokesprite.css';
   $imagePath = 'out/pokesprite.png';
+  $previewPath = 'out/pokesprite.html';
 
   // If files already exist, remove
   if (file_exists($cssPath)) unlink($cssPath);
   if (file_exists($imagePath)) unlink($imagePath);
+  if (file_exists($previewPath)) unlink($previewPath);
 
   // Init CSS file
-  file_put_contents($cssPath, ".pkspr{background-image:url('pokesprite.png')}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
+  file_put_contents($cssPath, ".pkspr{background-image:url('pokesprite.png');background-repeat:no-repeat}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
+
+  // Init HTML file
+  file_put_contents($previewPath, '<style>html{width:100%;height:100%;}body{display:flex;flex-wrap:wrap;justify-content:space-between;margin:100px;}.container{border:1px solid black;display:flex;justify-content:center;align-items:center;margin:5px;display:grid;grid-template-columns:68px 200px;overflow:hidden}.container.pokemon{height:56px}.container.item{height:32px}.container>div:not(.pkspr){padding:5px}</style><link rel="stylesheet"href="pokesprite.css">');
 
   // Create a blank image the right size
   $background = imagecreatetruecolor($width, $height);
 
   // Make that image transparent
-  $black = imagecolorallocate($background, 0, 0, 0);
-  imagecolortransparent($background, $black);
-  imagealphablending($background, false);
+  $transparentBackground = imagecolorallocatealpha($background, 0, 0, 0, 127);
+  imagefill($background, 0, 0, $transparentBackground);
   imagesavealpha($background, true);
+  
   $outputImage = $background;
 
   foreach($iconesPokemon as $i => $file)
@@ -173,8 +178,12 @@ function buildPokesprite($options = null, $logs = false)
     imagecopy($outputImage, $icon, $currentPosition->x, $currentPosition->y, 0, 0, $pokemonSize->width, $pokemonSize->height);
 
     // Insert position into CSS file
-    $css = '.pkspr.pokemon.' . $i . '{background-position:' . $currentPosition->x . 'px ' . $currentPosition->y . 'px}';
+    $css = '.pkspr.pokemon.' . $i . '{background-position:-' . $currentPosition->x . 'px -' . $currentPosition->y . 'px}';
     file_put_contents($cssPath, $css, FILE_APPEND);
+
+    // Create preview for preview page
+    $html = '<div class="container pokemon"><div class="pkspr pokemon ' . $i . '"></div><div>pokemon ' . $i . '</div></div>';
+    file_put_contents($previewPath, $html, FILE_APPEND);
 
     // Increment current position
     $currentPosition->x += $pokemonSize->width;
@@ -197,8 +206,12 @@ function buildPokesprite($options = null, $logs = false)
     imagecopy($outputImage, $icon, $currentPosition->x, $currentPosition->y, 0, 0, $itemSize->width, $itemSize->height);
 
     // Insert position into CSS file
-    $css = '.pkspr.item.' . $i . '{background-position:' . $currentPosition->x . 'px ' . $currentPosition->y . 'px}';
+    $css = '.pkspr.item.' . $i . '{background-position:-' . $currentPosition->x . 'px -' . $currentPosition->y . 'px}';
     file_put_contents($cssPath, $css, FILE_APPEND);
+
+    // Create preview for preview page
+    $html = '<div class="container item"><div class="pkspr item ' . $i . '"></div><div>item ' . $i . '</div></div>';
+    file_put_contents($previewPath, $html, FILE_APPEND);
 
     // Increment current position
     $currentPosition->x += $itemSize->width;
