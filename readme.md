@@ -124,7 +124,7 @@ To somewhat mitigate this, the sprites can be made to overlap each other. In nea
 
 The recommended overlap is **-24px left** and **-16px top**, which is a compromise between bringing the smaller sprites closer together and not letting the larger sprites overlap. **Here's an example of what that looks like:**
 
-<p align="center"><img align="center" src="resources/images/offset_example_2x.png" width="512" alt="Sprite offset example"></p>
+<p align="center"><img align="center" src="resources/images/offset_example_2x.png" width="552" alt="Sprite offset example"></p>
 
 With this setup, the larger sprites are quite close together but not uncomfortably so, and the smaller sprites are not too far away from each other. There is some small overlap for the largest sprites (the special Gigantamax forms), but not excessively so, and in most cases it should be rare to see multiple Gigantamax forms next to one another since it's not a permanent form.
 
@@ -136,6 +136,7 @@ For a better example of what many adjacent sprites look like with this setup, se
 
 * **[PKHeX](https://github.com/kwsch/PKHeX)** – Pokémon save file editor
 * **[PikaSprite](https://github.com/arcanis/pikasprite)** – a different interface for PokéSprite sprites
+* **[DexTool](https://github.com/PoshoDev/DexTool)** – management tools for a Pokémon living Dex, shiny hunting and streaming
 * Many Google Sheets used by Pokémon traders
 
 If your project uses PokéSprite and you'd like to be added to this list, feel free to [open an issue](https://github.com/msikma/pokesprite/issues) to request it.
