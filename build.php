@@ -158,10 +158,10 @@ function buildPokesprite($options = null, $logs = false)
   if (file_exists($previewPath)) unlink($previewPath);
 
   // Init CSS file
-  file_put_contents($cssPath, ".pkspr{background-image:url('pokesprite.png');background-repeat:no-repeat;image-rendering:pixelated;display:inline-block;position:relative;vertical-align:baseline;}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
+  file_put_contents($cssPath, ".pkspr{background-image:var(--link-pokesprite);background-repeat:no-repeat;image-rendering:pixelated;display:inline-block;position:relative;vertical-align:baseline;}.pkspr.pokemon{width:68px;height:56px}.pkspr.item{width:32px;height:32px}");
 
   // Init HTML file
-  file_put_contents($previewPath, '<head><style>html{width:100%;height:100%;}body{display:flex;flex-wrap:wrap;justify-content:space-between;margin:100px;background-color:#ccc}.container{border:1px solid black;display:flex;justify-content:center;align-items:center;margin:5px;display:grid;grid-template-columns:68px 220px;overflow:hidden}.container.pokemon{height:56px}.container.item{height:32px;grid-template-columns: 32px 256px}.container>div:not(.pkspr){padding:5px;font-size:.85em}</style><link rel="stylesheet"href="pokesprite.css"></head><body><main style="flex-basis:100%"><ul><li><a href="pokesprite.png">Link to image (pokesprite.png)</a></li><li><a href="pokesprite.css">Link to style sheet (pokesprite.css)</a></li></ul></main>');
+  file_put_contents($previewPath, '<head><style>html{--link-pokesprite:url("pokesprite.png");width:100%;height:100%;}body{display:flex;flex-wrap:wrap;justify-content:space-between;margin:100px;background-color:#ccc}.container{border:1px solid black;display:flex;justify-content:center;align-items:center;margin:5px;display:grid;grid-template-columns:68px 220px;overflow:hidden}.container.pokemon{height:56px}.container.item{height:32px;grid-template-columns: 32px 256px}.container>div:not(.pkspr){padding:5px;font-size:.85em}</style><link rel="stylesheet"href="pokesprite.css"></head><body><main style="flex-basis:100%"><ul><li><a href="pokesprite.png">Link to image (pokesprite.png)</a></li><li><a href="pokesprite.css">Link to style sheet (pokesprite.css)</a></li></ul></main>');
 
   // Create a blank image the right size
   $background = imagecreatetruecolor($width, $height);
